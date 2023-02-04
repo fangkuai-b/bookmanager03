@@ -6,9 +6,11 @@ from book.models import BookInfo, PeopleInfo
 # Create your views here.
 def index(request):
     # 在这里实现 增删改查
+    books = BookInfo.objects.all()
+    print(books)
     return HttpResponse("index")
 
-
+"""
 ##############################增加##################################
 # 增加
 # 方式一
@@ -17,7 +19,7 @@ book = BookInfo(
     pubdate='2023-01-04',
     read_count='123'
 )
-book.save()
+book.save()  # 必须调用对象.save方法；
 
 # 方式二
 BookInfo.objects.create(
@@ -28,7 +30,7 @@ BookInfo.objects.create(
 ##############################修改##################################
 # 修改
 # 方式一
-book = BookInfo.objects.get(id=5)
+book = BookInfo.objects.get(id=12)
 book.name = '运维开发入门'
 book.save()
 
@@ -73,8 +75,22 @@ BookInfo.objects.all().count()
     exclude排除掉符合条件剩下的结果
     get过滤单一结果
 对于过滤条件的使用，上述三个方法相同，故仅以filter进行讲解。
-过滤条件的表达语法如下：属性名称__比较运算符=值
+过滤条件的表达语法如下：
+    属性名称__比较运算符=值
+    如 id__exact=1 过滤表示id=1的数据
     属性名称和比较运算符间使用两个下划线，所以属性名不能包括多个下划线
+        exact：表示判等。
+        contains：是否包含。
+        startswith、endswith：以指定值开头或结尾。
+        isnull：是否为null。
+        in：是否包含在范围内。
+        比较查询
+            gt大于 (greater then)
+            gte大于等于 (greater then equal)
+            lt小于 (less then)
+            lte小于等于 (less then equal)
+        不等于的运算符，使用exclude()过滤器。
+        year、month、day、week_day、hour、minute、second：对日期时间类型的属性进行运算。
 '''
 
 # 查询编号为1的图书
@@ -110,3 +126,4 @@ BookInfo.objects.filter(pubdate__year='1980')
 
 # 查询1990年1月1日后发表的图书
 BookInfo.objects.filter(pubdate__gt='1990-01-01')
+"""

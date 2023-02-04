@@ -58,7 +58,12 @@ class PeopleInfo(models.Model):
     # 外键的级联操作
     # 主表和从表
     # 一 对 多（书籍 对 人物）
-    # CASCADE级联，删除主表数据时连通一起删除外键表中数据
+        # CASCADE级联，删除主表数据时连通一起删除外键表中数据
+        # PROTECT保护，通过抛出ProtectedError异常，来阻止删除主表中被外键应用的数据
+        # SET_NULL设置为NULL，仅在该字段null=True允许为null时可用
+        # SET_DEFAULT设置为默认值，仅在该字段设置了默认值时可用
+        # SET()设置为特定值或者调用特定方法
+        # DO_NOTHING不做任何操作，如果数据库前置指明级联性，此选项会抛出IntegrityError异常
     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE, verbose_name='图书')
 
     class Meta:
