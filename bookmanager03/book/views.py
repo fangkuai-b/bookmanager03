@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from book.models import BookInfo, PeopleInfo
+from django.db.models import F, Q
 
 
 # Create your views here.
@@ -9,6 +10,7 @@ def index(request):
     books = BookInfo.objects.all()
     print(books)
     return HttpResponse("index")
+
 
 """
 ##############################增加##################################
@@ -127,3 +129,37 @@ BookInfo.objects.filter(pubdate__year='1980')
 # 查询1990年1月1日后发表的图书
 BookInfo.objects.filter(pubdate__gt='1990-01-01')
 """
+
+
+'''
+# F对象和Q对象
+# F对象
+# 语法如下：
+#     F(属性名)
+from django.db.models import F
+# 查询阅读量大于等于评论量的图书。
+BookInfo.objects.filter(read_count__gt=F('comment_count'))    # <QuerySet [<BookInfo: 雪山飞狐>, <BookInfo: 运维开发入门>]>
+# 查询阅读量大于2倍评论量的图书。
+BookInfo.objects.filter(read_count__gt=F('comment_count')*2)
+
+# 并且查询
+# 查询阅读量大于20，并且编号小于3的图书。
+# 方式1
+BookInfo.objects.filter(read_count__gt=20, id__lt=3)
+# 方式二 （多个过滤器逐个调用表示逻辑与关系，同sql语句中where部分的and关键字。）
+BookInfo.objects.filter(read_count__gt=20).filter(id__lt=3)
+
+或者查询or
+# Q对象
+from django.db.models import Q
+# Q对象可以使用&、|连接，&表示逻辑与，|表示逻辑或。
+# Q(属性名__运算符=值)
+# 查询阅读量大于20的图书，改写为Q对象如下。
+BookInfo.objects.filter(Q(read_count__gt=20))
+# 查询阅读量大于20，或编号小于3的图书，只能使用Q对象实现
+BookInfo.objects.filter(Q(read_count__gt=20)|Q(id__lt=3))
+# Q对象前可以使用~操作符，表示非not。
+# 查询编号不等于3的图书。
+BookInfo.objects.exclude(id=3)
+BookInfo.objects.filter(~Q(id=3))
+'''
