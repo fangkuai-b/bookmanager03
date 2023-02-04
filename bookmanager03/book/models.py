@@ -30,6 +30,9 @@ class BookInfo(models.Model):
     read_count = models.IntegerField(default=0, verbose_name='阅读量')
     comment_count = models.IntegerField(default=0, verbose_name='评论量')
     is_delete = models.BooleanField(default=False, verbose_name='逻辑删除状态')
+    # 1对多的关系模型中
+    # 系统会自动为我们添加一个关联模型的类名小写_set
+    # peopleinfo_set= [PeopleInfo,PeopleInfo,...]
 
     class Meta:
         # 修改表的名字
@@ -65,6 +68,7 @@ class PeopleInfo(models.Model):
         # SET()设置为特定值或者调用特定方法
         # DO_NOTHING不做任何操作，如果数据库前置指明级联性，此选项会抛出IntegrityError异常
     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE, verbose_name='图书')
+    # book = BookInfo()
 
     class Meta:
         db_table = 'peopleinfo'  # 指明数据库表名
