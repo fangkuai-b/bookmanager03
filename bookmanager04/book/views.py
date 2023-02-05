@@ -105,10 +105,48 @@ def json_response(request):
     info = {'city': 'beijing', 'subject': 'python'}
     response = JsonResponse(data=info)
 
-    info_2 = [{'city': 'beijing', 'subject': 'python'},{'city': 'beijing', 'subject': 'python'}]
+    info_2 = [{'city': 'beijing', 'subject': 'python'}, {'city': 'beijing', 'subject': 'python'}]
     # response_2 = JsonResponse(data=info_2)    In order to allow non-dict objects to be serialized set the safe parameter to False.
     response_2 = JsonResponse(data=info_2, safe=False)  # safe如果为true表示data是字典数据，如果是非字典数据，JsonResponse可以转换为json，出问题自己负责
     return response_2
 
     # 重定向 redirect
     # return redirect('http://www.baidu.com')
+
+
+'''
+第一次请求，携带查询字符串
+http://127.0.0.1:8000/set_cookie/?username=itcast&password=123
+服务器收到请求之后获取username，服务器设置cookie信息，cookie信息包括username
+浏览器收到服务器的响应之后，应该吧cookie保存起来。
+
+第二次及其之后的请求，我们访问http://127.0.0.1:8000/时都会携带cookie信息。服务器就可以读取cookie信息来判断用户身份；
+'''
+
+
+def set_cookie(request):
+    # 1.获取字符串数据
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    # 2.服务器设置cookie信息
+    # 通过相应对象的set_cookie()方法
+    response = HttpResponse('set_cookie')
+    response.set_cookie('name', username)  # 不设置则默认关闭浏览器删除cookie
+    response.set_cookie('pwd', password, max_age=3600)  # 过期时间一小时
+
+    return response
+
+
+def get_cookie(request):
+    # 获取cookie
+    cookie = request.COOKIES
+    print(cookie)  # {'name': 'itcast'}
+    name = cookie.get('name')
+    return HttpResponse(name)
+
+
+def del_cookie(request):
+    # 删除cookie
+    response = HttpResponse('删除cookie成功')
+    response.delete_cookie('pwd')
+    return response
