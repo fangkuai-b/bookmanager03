@@ -1,6 +1,8 @@
 import json
 
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+
 from book.models import BookInfo
 
 
@@ -106,5 +108,7 @@ def json_response(request):
     info_2 = [{'city': 'beijing', 'subject': 'python'},{'city': 'beijing', 'subject': 'python'}]
     # response_2 = JsonResponse(data=info_2)    In order to allow non-dict objects to be serialized set the safe parameter to False.
     response_2 = JsonResponse(data=info_2, safe=False)  # safe如果为true表示data是字典数据，如果是非字典数据，JsonResponse可以转换为json，出问题自己负责
-    # response['Content-Type'] = 'application/json'
     return response_2
+
+    # 重定向 redirect
+    # return redirect('http://www.baidu.com')
