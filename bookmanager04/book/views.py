@@ -1,6 +1,6 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from book.models import BookInfo
 
 
@@ -78,3 +78,33 @@ def method(request):
     encoding = request.encoding
     print(encoding)  # None
     return HttpResponse('Method')
+
+
+from django.http import HttpResponseNotFound
+
+
+def response(request):
+    # return HttpResponse('res',status=666) HTTP status code must be an integer from 100 to 599.
+    # 1xx   消息
+    # 2xx   成功
+    # 3xx   重定向
+    # 4xx   请求端问题
+    #     404 路由问题，不存在，
+    #     403 权限问题，禁止访问
+    # 5xx   服务端问题
+    response = HttpResponse('res', status=200)
+    response['name'] = 'fangkuaib'
+    return response
+
+
+def json_response(request):
+    # json-->dict
+    # dict-->json
+    info = {'city': 'beijing', 'subject': 'python'}
+    response = JsonResponse(data=info)
+
+    info_2 = [{'city': 'beijing', 'subject': 'python'},{'city': 'beijing', 'subject': 'python'}]
+    # response_2 = JsonResponse(data=info_2)    In order to allow non-dict objects to be serialized set the safe parameter to False.
+    response_2 = JsonResponse(data=info_2, safe=False)  # safe如果为true表示data是字典数据，如果是非字典数据，JsonResponse可以转换为json，出问题自己负责
+    # response['Content-Type'] = 'application/json'
+    return response_2

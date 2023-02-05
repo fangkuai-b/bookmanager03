@@ -1,6 +1,6 @@
 from django.urls import path, converters
 from django.urls.converters import register_converter
-from book.views import create_book, goods, register, json_data, method
+from book.views import create_book, goods, register, json_data, method, response, json_response
 
 
 # 1、定义转换器
@@ -29,5 +29,7 @@ urlpatterns = (
     path('<int:cat_id>/<phone:mobile>/', goods),
     path('register/', register),
     path('json_data/', json_data),
-    path('method/', method)
+    path('method/', method),
+    path('res/', response),
+    path('json_response/', json_response),
 )
