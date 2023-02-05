@@ -15,7 +15,7 @@ def create_book(request):
     return HttpResponse("create sucess")
 
 
-def goods(request, cat_id, id):
+def goods(request, cat_id, mobile):
     query_parmas = request.GET
     print(
         query_parmas)  # http://127.0.0.1:8000/101/10055/?order=desc  返回打印结果：<QueryDict: {'a': ['1', '3'], 'b': ['2']}>
