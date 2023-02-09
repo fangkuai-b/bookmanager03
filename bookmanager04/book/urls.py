@@ -2,6 +2,8 @@ from django.urls import path, converters
 from django.urls.converters import register_converter
 from book.views import create_book, goods, register, json_data, method, response, json_response
 from book.views import set_cookie, get_cookie, del_cookie
+from book.views import set_session, get_session
+
 
 # 1、定义转换器
 class MobileConverter:
@@ -35,4 +37,6 @@ urlpatterns = (
     path('set_cookie/', set_cookie),
     path('get_cookie/', get_cookie),
     path('del_cookie/', del_cookie),
+    path('set_session/', set_session),
+    path('get_session/', get_session),
 )

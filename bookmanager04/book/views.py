@@ -1,7 +1,6 @@
 import json
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
 
 from book.models import BookInfo
 
@@ -82,9 +81,6 @@ def method(request):
     return HttpResponse('Method')
 
 
-from django.http import HttpResponseNotFound
-
-
 def response(request):
     # return HttpResponse('res',status=666) HTTP status code must be an integer from 100 to 599.
     # 1xx   消息
@@ -150,3 +146,42 @@ def del_cookie(request):
     response = HttpResponse('删除cookie成功')
     response.delete_cookie('pwd')
     return response
+
+
+'''
+session是保存在服务器端的（默认保存到数据库中），数据是相对安全的
+session需要依赖于cookie
+
+第一次请求 http://127.0.0.1:8000/set_session/?username=fangkuaib 我们在服务器端设置session信息
+服务器端同时会生成一个sessionid的cookie信息。
+浏览器接收到信息之后会把cookie数据保存起来
+
+第二次及其之后的请求都会携带这个sessionid，服务器会验证这个sessionid。
+验证没问题会读取相关数据，实现业务逻辑
+77课时
+'''
+
+
+def set_session(request):
+    # 1.模拟获取用户信息
+    username = request.GET.get('username')
+    # 2.设置session信息
+    # 假如我们通过模型查询到了用户的session信息
+    user_id = 1
+    request.session['user_id'] = user_id
+    request.session['username'] = username
+
+    return HttpResponse('set session')
+
+
+def get_session(request):
+    session_id = request.COOKIES.get('sessionid')
+    print(session_id)  # csi9pjn22apd4su2rv78k3ipyann3e0o
+    # user_id = request.session['user_id']
+    # user_name = request.session['username']
+    user_id = request.session.get('user_id')  # 用get可以避免报错，get获取不存在返回None
+    user_name = request.session.get('username')
+    content = '{},{}'.format(user_id, user_name)
+    print(user_id)  # 1
+    print(user_name)  # fangkuaib
+    return HttpResponse(content)  # 返回1,fangkuaib
