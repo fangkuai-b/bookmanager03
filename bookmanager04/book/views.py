@@ -170,7 +170,12 @@ def set_session(request):
     user_id = 1
     request.session['user_id'] = user_id
     request.session['username'] = username
-
+    # 设置session的过期时间,如果不设置，则默认两周
+    request.session.set_expiry(7200)
+    # clear 删除session里的数据，但是key有保留
+    # request.session.clear()
+    # flush 是删除所有的数据，包括key
+    # request.session.flush()
     return HttpResponse('set session')
 
 
@@ -185,3 +190,37 @@ def get_session(request):
     print(user_id)  # 1
     print(user_name)  # fangkuaib
     return HttpResponse(content)  # 返回1,fangkuaib
+
+
+def login(requset):
+    '''类视图'''
+    print(requset.method)
+    if requset.method == 'GET':
+        return HttpResponse('get 逻辑')
+    elif requset.method == 'POST':
+        return HttpResponse('POST 逻辑')
+    else:
+        return HttpResponse('请求方式错误！！！')
+
+
+'''
+类视图定义
+
+class 类视图名字(view)：
+    def get(self, request):
+        return HttpResponse('xxx')
+    def http_method_lower(self, request):
+        return HttpResponse('xxx')
+
+1、继承自View
+2、类视图中的方法 是采用 http方法小写来区分不同的请求方式的
+'''
+from django.views import View
+
+
+class LoginView(View):
+    def get(self, request):
+        return HttpResponse('get it')
+
+    def post(self, request):
+        return HttpResponse('post post post')
