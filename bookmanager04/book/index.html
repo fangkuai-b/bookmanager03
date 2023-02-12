@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- head 这里先导入 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+    [[ message ]]
+    <hr>
+    <a href= 'https://www.baidu.com'>点击有惊喜1</a>
+    <a v-bind:href="url_next" >点击有惊喜2</a>
+    <a :href="url_next" >点击有惊喜3</a>
+</div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],   // delimiters 改变分隔符
+        data: {
+            message: 'hello',
+            url_next: 'https://www.baidu.com'
+        }
+    })
+</script>
+</html>
