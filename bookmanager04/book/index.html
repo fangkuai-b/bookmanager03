@@ -15,8 +15,21 @@
     [[ message ]]
     <hr>
     <a href= 'https://www.baidu.com'>点击有惊喜1</a>
+    <br>
     <a v-bind:href="url_next" >点击有惊喜2</a>
     <a :href="url_next" >点击有惊喜3</a>
+    <hr>
+    <a href="#" v-if="isLogin">个人中心</a>
+    <a href="#" v-else>请登录</a>
+    <hr>
+    <a href="#" v-if="level===1">皇帝</a>
+    <a href="#" v-else-if="level===2">宰相</a>
+    <a href="#" v-else-if="level===3">大臣</a>
+    <a href="#"v-else>平民</a>
+    <hr>
+    <span v-if="seen"> if </span>
+    <span v-show="seen"> show </span>
+
 </div>
 </body>
 <script type="text/javascript">
@@ -25,7 +38,10 @@
         delimiters: ['[[', ']]'],   // delimiters 改变分隔符
         data: {
             message: 'hello',
-            url_next: 'https://www.baidu.com'
+            url_next: 'https://www.baidu.com',
+            isLogin: true,
+            level:1,
+            seen:false,
         }
     })
 </script>
