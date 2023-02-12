@@ -3,7 +3,7 @@ from django.urls.converters import register_converter
 from book.views import create_book, goods, register, json_data, method, response, json_response
 from book.views import set_cookie, get_cookie, del_cookie
 from book.views import set_session, get_session
-from book.views import login, LoginView
+from book.views import login, LoginView, OrderView
 
 
 # 1、定义转换器
@@ -39,6 +39,8 @@ urlpatterns = (
     path('get_cookie/', get_cookie),
     path('del_cookie/', del_cookie),
     path('set_session/', set_session),
+    path('get_session/', get_session),
     path('login/', login),
     path('163_login/', LoginView.as_view()),
+    path('order/', OrderView.as_view()),
 )

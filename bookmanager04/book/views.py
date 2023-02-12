@@ -107,6 +107,7 @@ def json_response(request):
     return response_2
 
     # 重定向 redirect
+    # from django.shortcuts import redirect
     # return redirect('http://www.baidu.com')
 
 
@@ -158,7 +159,6 @@ session需要依赖于cookie
 
 第二次及其之后的请求都会携带这个sessionid，服务器会验证这个sessionid。
 验证没问题会读取相关数据，实现业务逻辑
-77课时
 '''
 
 
@@ -224,3 +224,58 @@ class LoginView(View):
 
     def post(self, request):
         return HttpResponse('post post post')
+
+
+class Person(object):
+    # 对象方法
+    def play(self):
+        pass
+
+    # 类方法
+    @classmethod
+    def say(cls):
+        pass
+
+    # 静态方法
+    @staticmethod
+    def eat():
+        pass
+
+
+Person.say()
+cls = Person
+Person()
+cls()
+
+'''
+我的订单、个人中心页面
+如果登录用户 可以访问
+如果未登录用户 不应该访问，应该跳转到登录页面
+
+定义一个订单，个人中心 类视图
+判断我有没有登录？？？以登录有没有登录后台站点为例。
+'''
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+# LoginRequiredMixin 判断只有登录用户才可以访问页面
+# LoginRequiredMixin 内部会进行用户是否登录的判断，以登录admin判断，如果登录成功，则显示页面，如果未登录则跳转到以下/accounts/login/页面。
+'''
+多继承 python c++
+继承了多个父类。
+调用顺序遵循MRO顺序
+'''
+
+
+# class OrderView(View, LoginRequiredMixin):
+class OrderView(LoginRequiredMixin, View):
+    def get(self, request):
+        # 标记位
+        # isLogin = True
+        # if not isLogin:
+        #     return HttpResponse('没有登录，跳转到登录页面')
+        return HttpResponse(
+            '我的订单页面，这个页面必须登录。')  # 没登录则跳转到http://127.0.0.1:8000/accounts/login/?next=/order/
+
+    def post(self, request):
+        return HttpResponse('POST')
