@@ -14,10 +14,10 @@
     {{ message }}
     [[ message ]]
     <hr>
-    <a href= 'https://www.baidu.com'>点击有惊喜1</a>
+    <a href='https://www.baidu.com'>点击有惊喜1</a>
     <br>
-    <a v-bind:href="url_next" >点击有惊喜2</a>
-    <a :href="url_next" >点击有惊喜3</a>
+    <a v-bind:href="url_next">点击有惊喜2</a>
+    <a :href="url_next">点击有惊喜3</a>
     <hr>
     <a href="#" v-if="isLogin">个人中心</a>
     <a href="#" v-else>请登录</a>
@@ -25,23 +25,57 @@
     <a href="#" v-if="level===1">皇帝</a>
     <a href="#" v-else-if="level===2">宰相</a>
     <a href="#" v-else-if="level===3">大臣</a>
-    <a href="#"v-else>平民</a>
+    <a href="#" v-else>平民</a>
     <hr>
     <span v-if="seen"> if </span>
     <span v-show="seen"> show </span>
+    <hr>
+    <ul>
+        <!-- v-for='变量名 in 列表变量名' -->
+        <li v-for="shop in shops">{{ shop }}</li>
+    </ul>
+    <hr>
+    <ul>
+        <!-- v-for='(列表元素，索引) in 列表变量名' -->
+        <li v-for="(shop,index) in shops">第【{{ index + 1 }}】个店在【{{ shop }}】市</li>
+    </ul>
+    <hr>
+    <ul>
+        <li v-for="(item,index) in items">
+            {{ index+1 }}、{{ item.author }} 在【{{ item.publishedAt }}】,写了【{{ item.title }}】一书;
+        </li>
+    </ul>
 
 </div>
 </body>
 <script type="text/javascript">
     var app = new Vue({
         el: '#app',
-        delimiters: ['[[', ']]'],   // delimiters 改变分隔符
+        //delimiters: ['[[', ']]'],   // delimiters 改变分隔符
         data: {
             message: 'hello',
             url_next: 'https://www.baidu.com',
             isLogin: true,
-            level:1,
-            seen:false,
+            level: 1,
+            seen: true,
+            shops: ['北京', '上海', '广州', '深圳', '山西'],
+            items: [
+                {
+                    title: 'Vue',
+                    author: 'Jane Doe',
+                    publishedAt: '2016-04-10'
+                },
+                {
+                    title: 'python',
+                    author: 'Ricky',
+                    publishedAt: '2019-04-10'
+                },
+                {
+                    title: 'itcast',
+                    author: 'itcast',
+                    publishedAt: '2006-05-08'
+                }
+            ]
         }
     })
 </script>
