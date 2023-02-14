@@ -45,6 +45,15 @@
             {{ index+1 }}、{{ item.author }} 在【{{ item.publishedAt }}】,写了【{{ item.title }}】一书;
         </li>
     </ul>
+    <hr>
+    <div>
+        <button v-on:click="count += 1"> add + 1 </button>
+        <span> count : {{ count }}</span>
+        <hr>
+        <button v-on:click="login"> 登录 </button>
+        <button v-on:click="say('hi')">say hi</button>
+        <button @click="say('waaaaaa')">say waaaaaa</button>
+    </div>
 
 </div>
 </body>
@@ -75,8 +84,18 @@
                     author: 'itcast',
                     publishedAt: '2006-05-08'
                 }
-            ]
-        }
+            ],
+            count: 1,
+        },
+        methods:{
+            // 函数
+            login: function (){
+                alert('登录中~~~')
+            },
+            say:function (message){
+                alert(message)
+            }
+        },
     })
 </script>
 </html>
